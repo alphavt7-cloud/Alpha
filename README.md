@@ -1,32 +1,51 @@
 # Plataforma de Gestão de Carteira (B3)
 
-Este repositório contém a base de produto e arquitetura para construir uma plataforma de análise e acompanhamento de ativos da bolsa brasileira, inspirada em funcionalidades de mercado como:
+Este repositório agora inclui um **site web funcional** (MVP) para gestão de carteira de investimentos, inspirado no fluxo de acompanhamento de patrimônio, ativos e sincronização da carteira.
 
-- Dashboard consolidado de carteira
-- Sincronização com dados da B3
-- Métricas fundamentalistas e comparativos
-- Proventos, eventos corporativos e calendário
+## O que já existe
 
-## Objetivo
+- Dashboard com visão resumida de patrimônio e métricas estimadas.
+- Cadastro manual de ativos com persistência local (LocalStorage).
+- Simulação de sincronização de carteira.
+- Tema claro/escuro.
+- Estrutura de documentação de produto e arquitetura para evolução.
 
-Entregar uma plataforma web completa para investidores pessoa física, com foco em:
+## Estrutura
 
-1. Visão patrimonial em tempo real/near-real-time
-2. Análise de ativos (ações, FIIs, ETFs, BDRs e renda fixa)
-3. Importação e conciliação automatizada de movimentações
-4. Segurança, privacidade e conformidade (LGPD)
+- `web/index.html`: interface da plataforma
+- `web/styles.css`: estilos visuais responsivos
+- `web/app.js`: lógica do dashboard e carteira
+- `docs/product-spec.md`: escopo de produto e roadmap
+- `docs/architecture.md`: arquitetura proposta para escalar
+- `docs/integration-b3.md`: estratégia de sincronização e conciliação
+- `docs/openapi.yaml`: contrato inicial de API
 
-## Estrutura inicial
+## Como executar localmente
 
-- `docs/product-spec.md`: requisitos de produto, escopo e roadmap.
-- `docs/architecture.md`: arquitetura técnica proposta (frontend, backend, dados, filas).
-- `docs/integration-b3.md`: estratégia de sincronização com ecossistema B3 e conciliação.
-- `docs/openapi.yaml`: contrato inicial da API para autenticação, carteira e sincronização.
+Você pode abrir de duas formas:
+
+1. Abrir `web/index.html` diretamente no navegador, ou
+2. Rodar servidor local simples:
+
+```bash
+cd web
+python3 -m http.server 4173
+```
+
+Depois acesse `http://localhost:4173`.
+
+## Como ter acesso de qualquer lugar
+
+Para disponibilizar na internet:
+
+1. Suba este repositório no GitHub.
+2. Faça deploy estático em Vercel, Netlify, Cloudflare Pages ou GitHub Pages.
+3. Aponte um domínio próprio (opcional).
+4. Em próximas fases, conecte o frontend ao backend/API para autenticação e sincronização real.
 
 ## Próximos passos recomendados
 
-1. Validar escopo MVP com 5 a 10 usuários.
-2. Escolher stack final e iniciar o backend (auth + carteira + importações).
-3. Construir dashboard principal e fluxo de onboarding.
-4. Integrar provedores de dados de mercado e pipeline de preços.
-5. Evoluir para módulos de IR e relatórios avançados.
+1. Implementar backend (auth + portfolio + sync jobs).
+2. Integrar provedor de dados de mercado e eventos corporativos.
+3. Evoluir conciliação automática e trilha de auditoria.
+4. Adicionar módulo tributário (IR) e relatórios avançados.
