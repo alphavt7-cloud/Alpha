@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Alpha Portfolio API
+  version: 0.1.0
+  description: API inicial para autenticação, carteira e sincronização.
+servers:
+  - url: https://api.alpha.local
+paths:
+  /auth/register:
+    post:
+      summary: Registrar usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8 }
+      responses:
+        '201':
+          description: Usuário criado
+  /auth/login:
+    post:
+      summary: Login do usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        '200':
+          description: Token de acesso
+  /portfolio/summary:
+    get:
+      summary: Resumo consolidado da carteira
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Resumo da carteira
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalEquity: { type: number }
+                  totalProfitLoss: { type: number }
+                  byClass:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        assetClass: { type: string }
+                        percentage: { type: number }
+  /sync/jobs:
+    post:
+      summary: Solicitar sincronização de carteira
+      security:
+        - bearerAuth: []
+      responses:
+        '202':
+          description: Job de sincronização criado
+  /sync/jobs/{jobId}:
+    get:
+      summary: Consultar status de sincronização
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status do job
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
