@@ -7,66 +7,88 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div class="brand">Alpha Carteira</div>
-      <nav>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#ativos">Ativos</a>
-        <a href="#sync">Sincronização</a>
-      </nav>
-      <button id="themeToggle" aria-label="Alternar tema">🌙</button>
-    </header>
+    <section id="authScreen" class="auth-shell">
+      <div class="auth-card">
+        <h1>Alpha Carteira</h1>
+        <p>Acesso restrito por login e senha.</p>
+        <form id="loginForm" class="auth-form">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="voce@email.com" required />
 
-    <main>
-      <section class="hero">
-        <h1>Sua plataforma de investimentos da B3, acessível de qualquer lugar</h1>
-        <p>
-          Acompanhe patrimônio, rentabilidade, alocação e sincronização da carteira
-          em um painel único.
-        </p>
-      </section>
+          <label for="password">Senha</label>
+          <input id="password" type="password" placeholder="Sua senha" required />
 
-      <section id="dashboard" class="grid cards"></section>
-
-      <section id="ativos" class="panel">
-        <h2>Carteira por ativo</h2>
-        <form id="assetForm" class="asset-form">
-          <input id="ticker" placeholder="Ticker (ex: PETR4)" required />
-          <input id="quantity" type="number" min="1" placeholder="Quantidade" required />
-          <input id="avgPrice" type="number" min="0" step="0.01" placeholder="Preço médio" required />
-          <button type="submit">Adicionar ativo</button>
+          <button type="submit">Entrar</button>
         </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Ativo</th>
-              <th>Qtd</th>
-              <th>Preço Médio (R$)</th>
-              <th>Valor Investido (R$)</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="assetRows"></tbody>
-        </table>
-      </section>
+        <p id="authMessage" class="auth-message" aria-live="polite"></p>
+      </div>
+    </section>
 
-      <section id="sync" class="panel">
-        <h2>Sincronização da carteira</h2>
-        <p>
-          Simulação de sincronização com fonte de dados da B3 (status de processamento
-          e atualização de horário).
-        </p>
-        <div class="sync-actions">
-          <button id="syncNow">Sincronizar agora</button>
-          <span id="syncStatus" class="badge">Aguardando sincronização</span>
+    <div id="appShell" class="hidden">
+      <header class="topbar">
+        <div class="brand">Alpha Carteira</div>
+        <nav>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#ativos">Ativos</a>
+          <a href="#sync">Sincronização</a>
+        </nav>
+        <div class="topbar-actions">
+          <button id="themeToggle" aria-label="Alternar tema">🌙</button>
+          <button id="logoutBtn" class="logout">Sair</button>
         </div>
-        <small id="syncTime">Última sincronização: nunca</small>
-      </section>
-    </main>
+      </header>
 
-    <footer>
-      <p>Alpha Carteira • MVP web para gestão de carteira B3</p>
-    </footer>
+      <main>
+        <section class="hero">
+          <h1>Sua plataforma de investimentos da B3, acessível de qualquer lugar</h1>
+          <p>
+            Acompanhe patrimônio, rentabilidade, alocação e sincronização da carteira
+            em um painel único.
+          </p>
+        </section>
+
+        <section id="dashboard" class="grid cards"></section>
+
+        <section id="ativos" class="panel">
+          <h2>Carteira por ativo</h2>
+          <form id="assetForm" class="asset-form">
+            <input id="ticker" placeholder="Ticker (ex: PETR4)" required />
+            <input id="quantity" type="number" min="1" placeholder="Quantidade" required />
+            <input id="avgPrice" type="number" min="0" step="0.01" placeholder="Preço médio" required />
+            <button type="submit">Adicionar ativo</button>
+          </form>
+          <table>
+            <thead>
+              <tr>
+                <th>Ativo</th>
+                <th>Qtd</th>
+                <th>Preço Médio (R$)</th>
+                <th>Valor Investido (R$)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="assetRows"></tbody>
+          </table>
+        </section>
+
+        <section id="sync" class="panel">
+          <h2>Sincronização da carteira</h2>
+          <p>
+            Simulação de sincronização com fonte de dados da B3 (status de processamento
+            e atualização de horário).
+          </p>
+          <div class="sync-actions">
+            <button id="syncNow">Sincronizar agora</button>
+            <span id="syncStatus" class="badge">Aguardando sincronização</span>
+          </div>
+          <small id="syncTime">Última sincronização: nunca</small>
+        </section>
+      </main>
+
+      <footer>
+        <p>Alpha Carteira • MVP web para gestão de carteira B3</p>
+      </footer>
+    </div>
 
     <script src="app.js"></script>
   </body>

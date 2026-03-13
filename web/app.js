@@ -1,3 +1,10 @@
+const AUTH_USERS_KEY = "alpha-auth-users";
+const AUTH_SESSION_KEY = "alpha-auth-session";
+const DEFAULT_USER = {
+  email: "investidor@alpha.com",
+  password: "Alpha@123"
+};
+
 const formatBRL = (value) =>
   new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -6,6 +13,14 @@ const formatBRL = (value) =>
 
 const storageKey = "alpha-carteira-assets";
 const assets = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+const authScreen = document.getElementById("authScreen");
+const appShell = document.getElementById("appShell");
+const loginForm = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const authMessage = document.getElementById("authMessage");
+const logoutBtn = document.getElementById("logoutBtn");
 
 const cards = document.getElementById("dashboard");
 const rows = document.getElementById("assetRows");
@@ -18,6 +33,58 @@ const syncNow = document.getElementById("syncNow");
 const syncStatus = document.getElementById("syncStatus");
 const syncTime = document.getElementById("syncTime");
 const themeToggle = document.getElementById("themeToggle");
+
+function ensureDefaultUser() {
+  const users = JSON.parse(localStorage.getItem(AUTH_USERS_KEY) || "[]");
+  const alreadyExists = users.some((user) => user.email === DEFAULT_USER.email);
+
+  if (!alreadyExists) {
+    users.push(DEFAULT_USER);
+    localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
+  }
+}
+
+function isAuthenticated() {
+  return sessionStorage.getItem(AUTH_SESSION_KEY) === "authenticated";
+}
+
+function updateAuthView() {
+  if (isAuthenticated()) {
+    authScreen.classList.add("hidden");
+    appShell.classList.remove("hidden");
+  } else {
+    appShell.classList.add("hidden");
+    authScreen.classList.remove("hidden");
+  }
+}
+
+function authenticate(email, password) {
+  const users = JSON.parse(localStorage.getItem(AUTH_USERS_KEY) || "[]");
+  return users.some((user) => user.email === email && user.password === password);
+}
+
+loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const email = emailInput.value.trim().toLowerCase();
+  const password = passwordInput.value;
+
+  if (authenticate(email, password)) {
+    sessionStorage.setItem(AUTH_SESSION_KEY, "authenticated");
+    authMessage.textContent = "";
+    loginForm.reset();
+    updateAuthView();
+    render();
+    return;
+  }
+
+  authMessage.textContent = "Login ou senha inválidos.";
+});
+
+logoutBtn.addEventListener("click", () => {
+  sessionStorage.removeItem(AUTH_SESSION_KEY);
+  updateAuthView();
+});
 
 function persist() {
   localStorage.setItem(storageKey, JSON.stringify(assets));
@@ -115,8 +182,14 @@ themeToggle.addEventListener("click", () => {
 });
 
 function render() {
+  if (!isAuthenticated()) {
+    return;
+  }
+
   renderCards();
   renderRows();
 }
 
+ensureDefaultUser();
+updateAuthView();
 render();

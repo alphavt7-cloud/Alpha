@@ -20,6 +20,18 @@ Este repositório agora inclui um **site web funcional** (MVP) para gestão de c
 - `docs/integration-b3.md`: estratégia de sincronização e conciliação
 - `docs/openapi.yaml`: contrato inicial de API
 
+
+## Acesso (login obrigatório)
+
+O dashboard só é exibido após autenticação com login e senha.
+
+Credencial padrão do MVP:
+
+- **Email**: `investidor@alpha.com`
+- **Senha**: `Alpha@123`
+
+> Observação: neste MVP estático, a autenticação é simulada no navegador (LocalStorage/SessionStorage). Em produção, o login deve ser validado por backend com hash de senha, sessão segura/JWT e controles de segurança adicionais.
+
 ## Como executar localmente
 
 Você pode abrir de duas formas:
