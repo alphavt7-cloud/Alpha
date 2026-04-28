@@ -88,3 +88,11 @@ index 0000000000000000000000000000000000000000..ec5244c02fcc9a9b101402b130c3e412
  
 EOF
 )
+
+## Ferramenta de passagens aéreas (Google Flights)
+
+Foi adicionada a ferramenta `tools/flight_finder/google_flights_finder.py` para encontrar opções baratas de voos nacionais e internacionais usando o Google Flights como base.
+
+Documentação e exemplos:
+
+- `tools/flight_finder/README.md`
